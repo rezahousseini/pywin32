@@ -4,7 +4,7 @@
 #include "PyWinObjects.h"
 
 #include "malloc.h"
-#include "Userenv.h"
+#include "userenv.h"
 
 #define CHECK_PFN(fname)    \
     if (pfn##fname == NULL) \

@@ -1,8 +1,8 @@
-#include "Windows.h"
+#include "windows.h"
 #include "Python.h"
 #include "PyWinTypes.h"
 #include "PyWinObjects.h"
-#include "Rapi.h"
+#include "rapi.h"
 #include "math.h"
 
 // Identical to PyW32_BEGIN_ALLOW_THREADS except no script "{" !!!

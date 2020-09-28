@@ -24,6 +24,7 @@
 #include <import.h>
 
 #include <time.h>
+#include <algorithm>
 
 #ifndef _cplusplus
 #define bool int
@@ -387,7 +388,7 @@ static struct PyMethodDef connectionMethods[] = {
     {"close", odbcClose, 1},                 /* @pymeth close|Closes the connection. */
     {0, 0}};
 
-static PyMemberDef connectionMembers[] = {{"error", T_OBJECT, offsetof(connectionObject, connectionError), READONLY},
+static struct PyMemberDef connectionMembers[] = {{"error", T_OBJECT, offsetof(connectionObject, connectionError), READONLY},
                                           {NULL}};
 
 static void connectionDealloc(PyObject *self)
@@ -958,21 +959,21 @@ static int display_size(short coltype, int collen, const TCHAR *colname)
         case SQL_DATE:
         case SQL_TIMESTAMP:
         case SQL_BIT:
-            return (max(collen, (int)_tcslen(colname)));
+            return (std::max(collen, (int)_tcslen(colname)));
         case SQL_SMALLINT:
         case SQL_INTEGER:
         case SQL_TINYINT:
-            return (max(collen + 1, (int)_tcslen(colname)));
+            return (std::max(collen + 1, (int)_tcslen(colname)));
         case SQL_DECIMAL:
         case SQL_NUMERIC:
-            return (max(collen + 2, (int)_tcslen(colname)));
+            return (std::max(collen + 2, (int)_tcslen(colname)));
         case SQL_REAL:
         case SQL_FLOAT:
         case SQL_DOUBLE:
-            return (max(20, (int)_tcslen(colname)));
+            return (std::max(20, (int)_tcslen(colname)));
         case SQL_BINARY:
         case SQL_VARBINARY:
-            return (max(2 * collen, (int)_tcslen(colname)));
+            return (std::max(2 * collen, (int)_tcslen(colname)));
         case SQL_LONGVARBINARY:
         case SQL_LONGVARCHAR:
         default:
@@ -1444,7 +1445,7 @@ static PyObject *odbcCurSetOutputSize(PyObject *self, PyObject *args)
 }
 
 /* @object cursor|An object representing an ODBC cursor. */
-static PyMethodDef cursorMethods[] = {
+static struct PyMethodDef cursorMethods[] = {
     {"close", odbcCurClose, 1},                 /* @pymeth close|Closes the cursor */
     {"execute", odbcCurExec, 1},                /* @pymeth execute|Execute some SQL */
     {"fetchone", odbcCurFetchOne, 1},           /* @pymeth fetchone|Fetch one row of data */
@@ -1454,7 +1455,7 @@ static PyMethodDef cursorMethods[] = {
     {"setoutputsize", odbcCurSetOutputSize, 1}, /* @pymeth setoutputsize| */
     {0, 0}};
 
-static PyMemberDef cursorMembers[] = {{"description", T_OBJECT, offsetof(cursorObject, description), READONLY},
+static struct PyMemberDef cursorMembers[] = {{"description", T_OBJECT, offsetof(cursorObject, description), READONLY},
                                       {"error", T_OBJECT, offsetof(cursorObject, cursorError), READONLY},
                                       {NULL}};
 

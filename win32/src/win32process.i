@@ -1097,7 +1097,7 @@ static PyObject *MySetThreadAffinityMask(PyObject *self, PyObject *args)
 #endif // MS_WINCE
 
 // Special result handling for SuspendThread and ResumeThread
-%typedef DWORD DWORD_SR_THREAD
+%typedef DWORD DWORD_SR_THREAD;
 %typemap(python,out) DWORD_SR_THREAD {
 	$target = PyInt_FromLong($source);
 }

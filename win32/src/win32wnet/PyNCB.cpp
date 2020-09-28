@@ -29,9 +29,9 @@
 
 #endif
 
-#include "Pywintypes.h"
+#include "PyWinTypes.h"
 #include <windows.h>
-#include "python.h"
+#include "Python.h"
 #include "PyNCB.h"
 
 #include <crtdbg.h>

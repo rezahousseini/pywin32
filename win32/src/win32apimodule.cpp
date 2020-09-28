@@ -20,7 +20,7 @@ generates Windows .hlp files.
 
 #define SECURITY_WIN32  // required by below
 #include "security.h"   // for GetUserNameEx
-#include "PowrProf.h"
+#include "powrprof.h"
 
 // Identical to PyW32_BEGIN_ALLOW_THREADS except no script "{" !!!
 // means variables can be declared between the blocks
@@ -786,13 +786,14 @@ static PyObject *PyFormatMessageA(PyObject *self, PyObject *args)
     flags |= (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_ARGUMENT_ARRAY);
 
     {
-        PyW32_BEGIN_ALLOW_THREADS __try
+        PyW32_BEGIN_ALLOW_THREADS try
         {
             lrc = ::FormatMessageA(flags, pSource, msgId, langId, (LPSTR)&resultBuf, 0, (va_list *)pInserts);
         }
-        __except (GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER
-                                                                   : EXCEPTION_CONTINUE_SEARCH)
+        catch (...)
         {
+            GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER
+                                                                   : EXCEPTION_CONTINUE_SEARCH;
             baccessviolation = TRUE;
         }
         PyW32_END_ALLOW_THREADS
@@ -900,13 +901,14 @@ static PyObject *PyFormatMessageW(PyObject *self, PyObject *args)
     flags |= (FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_ARGUMENT_ARRAY);
 
     {
-        PyW32_BEGIN_ALLOW_THREADS __try
+        PyW32_BEGIN_ALLOW_THREADS try
         {
             lrc = ::FormatMessageW(flags, pSource, msgId, langId, (LPWSTR)&resultBuf, 0, (va_list *)pInserts);
         }
-        __except (GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER
-                                                                   : EXCEPTION_CONTINUE_SEARCH)
+        catch (...)
         {
+            GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION ? EXCEPTION_EXECUTE_HANDLER
+                                                                   : EXCEPTION_CONTINUE_SEARCH;
             baccessviolation = TRUE;
         }
         PyW32_END_ALLOW_THREADS
@@ -1306,7 +1308,7 @@ static PyObject *PyLoadCursor(PyObject *self, PyObject *args)
     if (!PyWinObject_AsResourceId(obid, &id))
         return NULL;
     // @pyseeapi LoadCursor
-    PyW32_BEGIN_ALLOW_THREADS HCURSOR ret = ::LoadCursor(hInstance, MAKEINTRESOURCE(id));
+    PyW32_BEGIN_ALLOW_THREADS HCURSOR ret = ::LoadCursor(hInstance, id);
     PyW32_END_ALLOW_THREADS PyWinObject_FreeResourceId(id);
     if (ret == NULL)
         ReturnAPIError("LoadCursor");
@@ -1937,7 +1939,7 @@ static PyObject *PyGetProcAddress(PyObject *self, PyObject *args)
     if (proc == NULL)
         return ReturnAPIError("GetProcAddress");
     // @pyseeapi GetProcAddress
-    return PyWinLong_FromVoidPtr(proc);
+    return PyWinLong_FromVoidPtr((const void*)proc);
 }
 
 // @pymethod <o PyUnicode>|win32api|GetDllDirectory|Returns the DLL search path
@@ -5533,9 +5535,10 @@ static PyObject *PyApply(PyObject *self, PyObject *args)
     }
     PyThreadState *stateSave = PyThreadState_Swap(NULL);
     PyThreadState_Swap(stateSave);
-    _try { ret = PyObject_CallObject(obFunc, obArgs); }
-    _except(PyApplyExceptionFilter(GetExceptionCode(), GetExceptionInformation(), obHandler, &exc_type, &exc_value))
+    try { ret = PyObject_CallObject(obFunc, obArgs); }
+    catch(...)
     {
+        PyApplyExceptionFilter(GetExceptionCode(), GetExceptionInformation(), obHandler, &exc_type, &exc_value);
         // Do my best to restore the thread state to a sane spot.
         PyThreadState *stateCur = PyThreadState_Swap(NULL);
         if (stateCur == NULL)

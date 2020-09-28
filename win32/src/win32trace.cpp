@@ -32,6 +32,7 @@ See - I told you the implementation was simple :-)
 
 #include "PyWinTypes.h"
 #include "PyWinObjects.h"
+#include <algorithm>
 
 const unsigned long BUFFER_SIZE = 0x20000;  // Includes size integer.
 const TCHAR *MAP_OBJECT_NAME = _T("Global\\PythonTraceOutputMapping");
@@ -315,7 +316,7 @@ BOOL PyTraceObject::WriteData(const char *data, unsigned len)
     BOOL rc = TRUE;
     Py_BEGIN_ALLOW_THREADS const char *data_this = data;
     while (len) {
-        unsigned len_this = min(len, BUFFER_SIZE / 2);
+        unsigned len_this = std::min<long unsigned int>(len, BUFFER_SIZE / 2);
         BOOL ok = GetMyMutex();
         if (ok) {
             // must use types with identical size on win32 and win64

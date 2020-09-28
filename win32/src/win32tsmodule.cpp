@@ -4,7 +4,7 @@
 #include "PyWinObjects.h"
 #include "structmember.h"
 
-#include "WtsApi32.h"
+#include "wtsapi32.h"
 #include "malloc.h"
 
 #define CHECK_PFN(fname)    \

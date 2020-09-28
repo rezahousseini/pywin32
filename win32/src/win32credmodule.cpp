@@ -2,7 +2,7 @@
 #define _WIN32_WINNT 0x501  // Credentials functions only available on WinXP
 #include "PyWinTypes.h"
 #include "PyWinObjects.h"
-#include "WinCred.h"
+#include "wincred.h"
 
 // @object PyCREDENTIAL_ATTRIBUTE|A dictionary containing information for a CREDENTIAL_ATTRIBUTE struct
 // @pyseeapi CREDENTIAL_ATTRIBUTE

@@ -84,5 +84,4 @@ SymbolicName=PERFDATA_STRUCTURE_MISMATCH
 Language=English
 The collection DLL and application have mismatched structure sizes.  The versions are probably not in synch.
 .
-;//
 ;#endif // _PYPERFMSG_H_

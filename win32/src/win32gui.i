@@ -2,7 +2,7 @@
 // @doc
 
 %ifdef WINXPGUI
-%module winxpgui 
+%module winxpgui
 %else
 %module win32gui // A module which provides an interface to the native win32
                  // GUI API.<nl>Note that a module <o winxpgui> also exists, 

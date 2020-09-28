@@ -15,7 +15,7 @@ generates Windows .hlp files.
 #define WINVER 0x500
 #endif
 
-#include "pywintypes.h"
+#include "PyWinTypes.h"
 #include "ras.h"
 #include "raserror.h"
 
@@ -471,7 +471,7 @@ static PyObject *PyRasDial(PyObject *self, PyObject *args)
         pNotification = NULL;
     }
     else if (PyCallable_Check(obCallback)) {
-        pNotification = PyRasDialFunc1;
+        pNotification = (void*)PyRasDialFunc1;
         notType = 1;
     }
     else if (PyInt_Check(obCallback)) {

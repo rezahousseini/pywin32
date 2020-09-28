@@ -135,7 +135,7 @@ static PyNumberMethods PyHANDLE_NumberMethods = {
     0, /* nb_coerce (allowed to be zero) - removed in 3.0 */
 #endif
     PyHANDLE::intFunc,          /* nb_int */
-    PyHANDLE::longFunc,         /* nb_long */
+    (void*)PyHANDLE::longFunc,         /* nb_long */
     PyHANDLE::unaryFailureFunc, /* nb_float */
                                 // These removed in 3.0
 #if (PY_VERSION_HEX < 0x03000000)

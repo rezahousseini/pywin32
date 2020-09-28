@@ -2426,7 +2426,7 @@ static PyObject *PySetTokenInformation(PyObject *self, PyObject *args)
 // we used to expose this as "GetPolicyHandle".  It has been renamed 
 // to "LsaOpenPolicy" to be consistent with win32, but GetPolicyHandle still
 // exists as an alias.
-%native(GetPolicyHandle) PyLsaOpenPolicy;
+//%native(GetPolicyHandle) PyLsaOpenPolicy;
 
 // @pyswig <o PyLSA_HANDLE>|LsaOpenPolicy|Opens a policy handle for the specified system
 %native(LsaOpenPolicy) PyLsaOpenPolicy;

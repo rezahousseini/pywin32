@@ -15,7 +15,7 @@ generates Windows .hlp files.
 #define WINVER 0x500
 #endif
 
-#include "pywintypes.h"
+#include "PyWinTypes.h"
 #include "ras.h"
 #include "raserror.h"
 
