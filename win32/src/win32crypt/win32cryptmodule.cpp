@@ -581,7 +581,7 @@ static PyObject *PyCertOpenStore(PyObject *self, PyObject *args, PyObject *kwarg
         pvPara = (void *)&cssrp;
     }
     else {
-        switch ((ULONG_PTR)StoreProvider) {
+        switch (StoreProvider) {
             case CERT_STORE_PROV_PHYSICAL:
             case CERT_STORE_PROV_FILENAME:
             case CERT_STORE_PROV_SYSTEM:
