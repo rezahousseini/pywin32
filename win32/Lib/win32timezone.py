@@ -9,7 +9,7 @@ on the registry entries defined by the operating system.
     This module may be tested using the doctest module.
 
     Written by Jason R. Coombs (jaraco@jaraco.com).
-    Copyright © 2003-2012.
+    Copyright Â© 2003-2012.
     All Rights Reserved.
 
     This module is licenced for use in Mark Hammond's pywin32
@@ -144,7 +144,7 @@ True
 True
 
 This test helps ensure language support for unicode characters
->>> x = TIME_ZONE_INFORMATION(0, u'français')
+>>> x = TIME_ZONE_INFORMATION(0, u'franÃ§ais')
 
 
 Test conversion from one time zone to another at a DST boundary
@@ -939,8 +939,7 @@ class RangeMap(dict):
     >>> r[RangeMap.last_item]
     'b'
 
-    Sometimes it's useful to find the bounds for a RangeMap
-    >>> r.bounds()
+    Sometimes it's useful to find the bounds for a RangeMapeMap >>> r.bounds()
     (0, 6)
 
     RangeMap supports .get(key, default)
