@@ -14,6 +14,7 @@ generates Windows .hlp files.
 #include "PyWinTypes.h"
 #include "pdh.h"
 #include "pdhmsg.h"
+#include <algorithm>
 
 /*
 According to MSDN, Pdh calls are thread safe, although there was a bug
@@ -1005,7 +1006,7 @@ PDH_STATUS __stdcall PyCounterPathCallback(DWORD_PTR dwArg)
     {                                                             \
         if (i < seqLen) {                                         \
             PyObject *subItem = PyTuple_GET_ITEM(flags_tuple, i); \
-            myCfg.cfg.##r = PyObject_IsTrue(subItem);             \
+            myCfg.cfg.r = PyObject_IsTrue(subItem);             \
         }                                                         \
     }
 
@@ -1079,7 +1080,7 @@ static PyObject *PyBrowseCounters(PyObject *self, PyObject *args, PyObject *kwar
     // Initialize the return buffer if starting path is passed in. (bInitializePath will also be set)
     if (!PyWinObject_AsTCHAR(obInitialPath, &InitialPath, TRUE, &cchInitialPath))
         return NULL;  // Last exit without cleanup
-    myCfg.cfg.cchReturnPathLength = max(cchInitialPath + 1, 1024);
+    myCfg.cfg.cchReturnPathLength = std::max<DWORD>(cchInitialPath + 1, 1024);
     myCfg.cfg.szReturnPathBuffer = (TCHAR *)malloc(myCfg.cfg.cchReturnPathLength * sizeof(TCHAR));
     if (myCfg.cfg.szReturnPathBuffer == NULL) {
         PyErr_NoMemory();
